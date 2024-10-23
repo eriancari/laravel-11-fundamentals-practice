@@ -35,7 +35,7 @@ class PostsController extends Controller
      */
     public function show(string $id)
     {
-        return "show id " . $id;
+        return view('posts.show')->with('id', $id); // passing parameter in view
     }
 
     /**
@@ -61,5 +61,10 @@ class PostsController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    // custom function
+    public function summary(string $id, string $name, string $password) {
+        return view('posts.summary', compact('id', 'name', 'password'));
     }
 }

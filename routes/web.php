@@ -40,6 +40,7 @@ Route::get('/admin/post/example', array('as' => 'admin.home', function () {
 
 // Resource
 Route::resource('posts', PostsController::class);
+Route::get('/summary/{id}/{name}/{password}', [PostsController::class, 'summary']); // custom function
 
 Route::group(['middleware' =>['web']], function() {
 
