@@ -35,7 +35,17 @@ class PostsController extends Controller
      */
     public function show(string $id)
     {
-        return view('posts.show')->with('id', $id); // passing parameter in view
+
+        $people = [
+            'pablo',
+            'stell',
+            'josh',
+            'ken',
+            'justin',
+        ];
+
+        // return view('posts.show')->with('id', $id); // passing parameter in view
+        return view('posts.show', compact('people'));
     }
 
     /**
