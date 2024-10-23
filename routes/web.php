@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,6 +32,14 @@ Route::get('/admin/post/example', array('as' => 'admin.home', function () {
     // this can be used like: <a href="route(admin.home)">Click here</a>
     return "This url is " . $url;
 }));
+
+// Routing Controllers
+// Route::get('/posts', [PostsController::class, 'index']);
+
+// Route::get('/posts/{id}', [PostsController::class, 'show']); // this automatically passes parameters
+
+// Resource
+Route::resource('posts', PostsController::class);
 
 Route::group(['middleware' =>['web']], function() {
 
