@@ -24,9 +24,9 @@ Route::get('/post/{id}', function ($id) {
     return "Post ID is " . $id;
 });
 
-Route::get('/post/{id}/{name}', function ($id, $name) {
-    return "Post ID is " . $id . " by " . $name;
-});
+// Route::get('/post/{id}/{name}', function ($id, $name) {
+//     return "Post ID is " . $id . " by " . $name;
+// });
 
 // naming routes
 Route::get('/admin/post/example', array('as' => 'admin.home', function () {
@@ -183,3 +183,9 @@ Route::get('/forcedelete', function() {
 Route::get('/user/{id}/post', function($id) {
     return User::find($id)->post->title;
 });
+
+// INVERSE RELATION
+Route::get('/post/{id}/user', function($id) {
+    return Post::find($id)->user->name;
+});
+
