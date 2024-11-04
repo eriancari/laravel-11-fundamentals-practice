@@ -45,4 +45,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function post() {
+        return $this->hasOne('App\Models\Post'); // determines the user_id
+    }
 }

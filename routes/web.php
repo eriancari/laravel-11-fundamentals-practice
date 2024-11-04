@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\User;
 use App\Http\Controllers\PostsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
@@ -174,3 +175,11 @@ Route::get('/forcedelete', function() {
     return $posts;
 });
 
+/**
+ * ELOQUENT RELATIONSHIPS
+ */
+
+// THIS FETCHES USER'S POST
+Route::get('/user/{id}/post', function($id) {
+    return User::find($id)->post->title;
+});
