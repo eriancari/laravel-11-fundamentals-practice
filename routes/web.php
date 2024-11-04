@@ -43,8 +43,8 @@ Route::get('/admin/post/example', array('as' => 'admin.home', function () {
 // Route::get('/posts/{id}', [PostsController::class, 'show']); // this automatically passes parameters
 
 // Resource
-Route::resource('posts', PostsController::class);
-Route::get('/summary/{id}/{name}/{password}', [PostsController::class, 'summary']); // custom function
+// Route::resource('posts', PostsController::class);
+// Route::get('/summary/{id}/{name}/{password}', [PostsController::class, 'summary']); // custom function
 
 Route::group(['middleware' =>['web']], function() {
 
@@ -179,6 +179,8 @@ Route::get('/forcedelete', function() {
  * ELOQUENT RELATIONSHIPS
  */
 
+// ONE TO ONE RELATIONSHIP
+
 // THIS FETCHES USER'S POST
 Route::get('/user/{id}/post', function($id) {
     return User::find($id)->post->title;
@@ -189,3 +191,12 @@ Route::get('/post/{id}/user', function($id) {
     return Post::find($id)->user->name;
 });
 
+// ONE TO MANY RELATIONSHIP
+Route::get('/posts', function() {
+    
+    $user = User::find(1);
+
+    foreach($user->posts as $post) {
+        echo $post->title . "<br />";
+    }
+});
