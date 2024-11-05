@@ -200,3 +200,11 @@ Route::get('/posts', function() {
         echo $post->title . "<br />";
     }
 });
+
+// MANY TO MANY RELATIONSHIP
+Route::get('/user/{id}/role', function($id) {
+    
+    $user = User::find($id)->roles;
+
+    return $user;
+});
