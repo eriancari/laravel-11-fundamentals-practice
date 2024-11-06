@@ -208,3 +208,13 @@ Route::get('/user/{id}/role', function($id) {
 
     return $user;
 });
+
+// ACCESSING INTERMEDIATE TABLE (PIVOT TABLE)
+Route::get('/user/pivot', function() {
+    $user = User::find(1);
+
+    // return $user->roles;
+    foreach($user->roles as $role) {
+        return $role->pivot->created_at;
+    }
+});
