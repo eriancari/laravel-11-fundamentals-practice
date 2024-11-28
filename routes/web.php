@@ -3,6 +3,7 @@
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Country;
+use App\Models\Photo;
 use App\Http\Controllers\PostsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
@@ -21,13 +22,13 @@ Route::get('/contact', function () {
 });
 
 // passing with parameters
-Route::get('/post/{id}', function ($id) {
+/* Route::get('/post/{id}', function ($id) {
     return "Post ID is " . $id;
-});
+}); */
 
-// Route::get('/post/{id}/{name}', function ($id, $name) {
-//     return "Post ID is " . $id . " by " . $name;
-// });
+/* Route::get('/post/{id}/{name}', function ($id, $name) {
+    return "Post ID is " . $id . " by " . $name;
+}); */
 
 // naming routes
 Route::get('/admin/post/example', array('as' => 'admin.home', function () {
@@ -228,3 +229,27 @@ Route::get('/user/country', function() {
         return $post->title;
     }
 });
+
+// POLYMORPHIC RELATIONS
+Route::get('/user/photos', function() {
+    $user = User::find(1);
+    
+    foreach($user->photos as $photo) {
+        return $photo;
+    }
+});
+
+Route::get('/post/photos', function() {
+    $post = Post::find(1);
+    
+    foreach($post->photos as $photo) {
+        return $photo->path;
+    }
+});
+// POLYMORPHIC THE INVERSE
+Route::get('/photo/{id}/post', function($id) {
+    $photo = Photo::findOrFail($id);
+
+    return $photo->imageable;
+});
+

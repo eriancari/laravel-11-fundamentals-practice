@@ -66,4 +66,8 @@ class User extends Authenticatable
         
         return $this->belongsToMany('App\Models\Role')->withPivot('created_at', 'updated_at');
     }
+
+    public function photos() {
+        return $this->morphMany('App\Models\Photo', 'imageable');
+    }
 }
