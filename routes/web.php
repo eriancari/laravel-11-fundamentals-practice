@@ -93,13 +93,51 @@ Route::get('/update', function() {
     // $updated = DB::update('UPDATE posts SET title = "Updated title" WHERE id = ?', [1]);
     // return $updated;
 });
-
+ 
 Route::get('/delete', function() {
 
     $user = User::findOrFail(2);
     $user->address()->delete();
     // $deleted = DB::delete('DELETE FROM posts WHERE id = ?', [1]);
     // return $deleted;
+});
+
+Route::get('/create/posts', function() {
+
+    $user = User::findOrFail(1);
+    $post = new Post(['title'=>'Fake Faces', 'content'=>'And I tried to give what they want from me / This one-sided love is slowly killing me']);
+    $user->post()->save($post);
+    
+});
+
+Route::get('/read/user/posts', function() {
+
+    $user = User::findOrFail(1);
+    // return $user->posts;
+
+    foreach($user->posts as $post) {
+        echo $post->title . "<br />";
+    }
+    
+});
+
+Route::get('/update/user/posts', function() {
+
+    $user = User::findOrFail(1);
+
+    $user->posts()->whereId(1)->update([
+        'title' => 'Bulan!',
+        'content' => 'Abante lang, walang atrasan / Ang bumangga giba / Kabisig man o hindi ang mundo / Tuluy-tuloy lang ang takbo'
+    ]);
+    
+});
+
+Route::get('/delete/user/posts', function() {
+
+    $user = User::findOrFail(1);
+
+    $user->posts()->whereId(1)->delete();
+    
 });
 
 /** 

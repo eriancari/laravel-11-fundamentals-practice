@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            // $table->integer('user_id')->unsigned(); // did migrate:refresh
+            $table->integer('user_id')->unsigned()->nullable()->index(); // did migrate:refresh
             $table->string('title');
             $table->text('content');
             $table->timestamps();
