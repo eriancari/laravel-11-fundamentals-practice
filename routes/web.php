@@ -4,6 +4,7 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\Photo;
+use App\Models\Tag;
 use App\Http\Controllers\PostsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
@@ -246,10 +247,26 @@ Route::get('/post/photos', function() {
         return $photo->path;
     }
 });
-// POLYMORPHIC THE INVERSE
-Route::get('/photo/{id}/post', function($id) {
+
+Route::get('/photo/{id}/post', function($id) { // POLYMORPHIC THE INVERSE
     $photo = Photo::findOrFail($id);
 
     return $photo->imageable;
 });
 
+// POLYMORPHIC MANY TO MANY
+Route::get('/post/tag', function() {
+    $post = Post::find(1);
+    
+    foreach($post->tags as $tag) {
+        echo $tag->name;
+    }
+});
+
+Route::get('/tag/post', function() {
+    $tag = Tag::find(2);
+    
+    foreach($tag->posts as $post) {
+        echo $post->title;
+    }
+});
