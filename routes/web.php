@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Country;
 use App\Models\Photo;
 use App\Models\Tag;
+use App\Models\Address;
 use App\Http\Controllers\PostsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
@@ -56,36 +57,57 @@ Route::group(['middleware' =>['web']], function() {
 
 /* Application Routes */
 
-// Route::get('/insert', function() {
-//     DB::insert('insert into posts(title, content) values(?, ?)', ['Practice Laravel', 'Laravel is the best thing that happened to PHP']);
-// });
+Route::get('/insert', function() {
+    $user = User::findOrFail(1);
+    
+    $address = new Address([
+        'name' => 'Pagadian, Zamboanga del Sur'
+    ]);
 
-// Route::get('/read', function() {
-//     $results = DB::select('SELECT * FROM posts where id = ?', [1]);
+    $user->address()->save($address);
 
-//     return $results;
-//     /* foreach($results as $post) {
-//         return $post->content;
-//     } */
-// });
+    // DB::insert('insert into posts(title, content) values(?, ?)', ['Practice Laravel', 'Laravel is the best thing that happened to PHP']);
+});
 
-// Route::get('/update', function() {
-//     $updated = DB::update('UPDATE posts SET title = "Updated title" WHERE id = ?', [1]);
+Route::get('/read', function() {
 
-//     return $updated;
-// });
+    $user = User::findOrFail(1);
+    return $user->address->name;
 
-// Route::get('/delete', function() {
-//     $deleted = DB::delete('DELETE FROM posts WHERE id = ?', [1]);
-//     return $deleted;
-// });
+    // $results = DB::select('SELECT * FROM posts where id = ?', [1]);
+
+    // return $results;
+    /* foreach($results as $post) {
+        return $post->content;
+    } */
+});
+
+Route::get('/update', function() {
+    
+    $address = Address::whereUserId('1')->first();
+    
+    $address->name = "Pagadian, Zamboanga del Sur, PH";
+
+    $address->save();
+
+    // $updated = DB::update('UPDATE posts SET title = "Updated title" WHERE id = ?', [1]);
+    // return $updated;
+});
+
+Route::get('/delete', function() {
+
+    $user = User::findOrFail(2);
+    $user->address()->delete();
+    // $deleted = DB::delete('DELETE FROM posts WHERE id = ?', [1]);
+    // return $deleted;
+});
 
 /** 
  * ELOQUENT
 */
 
 // READ
-Route::get('/read', function() {
+Route::get('/read/posts', function() {
      $posts  = Post::all();
      
      foreach($posts as $post) {
@@ -133,12 +155,12 @@ Route::get('/create', function() {
 });
 
 // UPDATE
-Route::get('/update', function() {
+Route::get('/update/post', function() {
     Post::where('id', 2)->where('is_admin', 0)->update(['title' => 'NEW PHP TITLE', 'content' => 'NEW CONTENT!!!']);
 });
 
 // DELETE
-Route::get('/delete', function() {
+Route::get('/delete/posts', function() {
     $post = Post::find(1);
     $post->delete();
 });
