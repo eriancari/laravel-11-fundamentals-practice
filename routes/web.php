@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Role;
 use App\Models\Country;
 use App\Models\Photo;
 use App\Models\Tag;
@@ -138,6 +139,66 @@ Route::get('/delete/user/posts', function() {
 
     $user->posts()->whereId(1)->delete();
     
+});
+
+Route::get('/create/user/role', function() {
+    $user = User::find(2);
+
+    $role = new Role(['name' => 'administrator']);
+
+    $user->roles()->save($role);
+});
+
+Route::get('/read/user/role', function() {
+    $user = User::findOrFail(2);
+
+    foreach($user->roles as $role) {
+        echo $role->name;
+    }
+});
+
+Route::get('/update/user/role', function() {
+    $user = User::findOrFail(2);
+
+    if ($user->has('roles')) {
+        foreach ($user->roles as $role) {
+            if ($role->name === 'Subscriber') {
+                $role->name = 'Administrator';
+                $role->save();
+            }
+        }
+    }
+});
+
+Route::get('/delete/user/role', function() {
+    $user = User::findOrFail(2);
+
+    foreach ($user->roles as $role) {
+        $role->whereId(4)->delete();
+    }
+});
+
+// ATTACHES A ROLE TO A USER
+Route::get('/attach', function() {
+    $user = User::findOrFail(1);
+
+    $user->roles()->attach(2); // similar with adding role, but tagging it to a specific user
+    // CONS: everytime the "attach" is used, it will add another record
+});
+
+// REMOVES ATTACHMENT TO A USER
+Route::get('/detach', function() {
+    $user = User::findOrFail(1);
+    
+    $user->roles()->detach(); // similar with adding role, but tagging it to a specific user
+    // CONS: everytime the "attach" is used, it will add another record
+});
+
+// SYNC
+Route::get('/sync', function() {
+    $user = User::findOrFail(1);
+
+    $user->roles()->sync([1, 2]);
 });
 
 /** 
