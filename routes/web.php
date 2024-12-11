@@ -7,6 +7,8 @@ use App\Models\Country;
 use App\Models\Photo;
 use App\Models\Tag;
 use App\Models\Address;
+use App\Models\Staff;
+use App\Models\Product;
 use App\Http\Controllers\PostsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
@@ -391,3 +393,59 @@ Route::get('/tag/post', function() {
         echo $post->title;
     }
 });
+
+// POLYMORPH
+
+Route::get('/create/staff/photo', function() {
+    $staff = Staff::find(1);
+
+    $staff->photos()->create(['path' => 'example.jpg']);
+});
+
+Route::get('/read/staff/photo', function() {
+    $staff = Staff::findOrFail(1);
+
+    foreach($staff->photos as $photo) {
+        echo $photo->path;
+    }
+});
+
+Route::get('/read/staff/photo', function() {
+    $staff = Staff::findOrFail(1);
+
+    foreach($staff->photos as $photo) {
+        echo $photo->path;
+    }
+});
+
+Route::get('/update/staff/photo', function() {
+    $staff = Staff::findOrFail(1);
+
+    $photo = $staff->photos()->whereId(2)->first();
+    $photo->path = "Example.jpg";
+    $photo->save();
+});
+
+Route::get('/delete/staff/photo', function() {
+    $staff = Staff::findOrFail(1);
+
+    $staff->photos()->delete();
+});
+
+Route::get('/assign', function() {
+    $staff = Staff::findOrFail(1);
+
+    $photo = Photo::findOrFail(3);
+
+    $staff->photos()->save($photo);
+});
+
+Route::get('/unassign', function() {
+    $staff = Staff::findOrFail(1);
+
+    $photo = Photo::findOrFail(3);
+
+    $staff->photos()->whereId(3)->update(['imageable_id' => 0, "imageable_type" => ""]);
+});
+ 
+
