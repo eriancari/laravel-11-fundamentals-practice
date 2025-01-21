@@ -8,6 +8,7 @@ use App\Models\Photo;
 use App\Models\Tag;
 use App\Models\Address;
 use App\Models\Staff;
+use App\Models\Video;
 use App\Models\Product;
 use App\Http\Controllers\PostsController;
 use Illuminate\Database\Eloquent\Model;
@@ -448,4 +449,47 @@ Route::get('/unassign', function() {
     $staff->photos()->whereId(3)->update(['imageable_id' => 0, "imageable_type" => ""]);
 });
  
+Route::get('/create/tag', function() {
+    $post = Post::create(['title' => 'My first post', 'content' => 'My first content']);
 
+    $tag1 = Tag::find(1);
+
+    $post->tags()->save($tag1);
+
+    $video = Video::create(['name' => 'Video.mov']);
+
+    $tag2 = Tag::find(1);
+
+    $video->tags()->save($tag2);
+});
+
+Route::get('/read/tag', function() {
+    $post = Post::findOrFail(1);
+
+    foreach($post->tags as $tag) {
+        echo $tag;
+    }
+});
+
+Route::get('/update/tag', function() {
+    /* $post = Post::findOrFail(4);
+
+    foreach($post->tags as $tag) {
+        return $tag->whereName('PHP')->update(['name' => 'Updated PHP']);
+    } */
+
+    $post = Post::findOrFail(5);
+    $tag = Tag::find(2);
+
+    // $post->tags()->save($tag);
+    // $post->tags()->attach($tag);
+    $post->tags()->sync([1]);
+});
+
+Route::get('/delete/tag', function() {
+    $post = Post::find(4);
+
+    foreach($post->tags as $tag) {
+        $tag->whereId(2)->delete();
+    }
+});
