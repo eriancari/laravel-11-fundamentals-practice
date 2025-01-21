@@ -13,6 +13,7 @@ class Post extends Model
     
     // $fillable - to allow mass assignment on a create method
     protected $fillable = [
+        'user_id',
         'title',
         'content'
     ];
