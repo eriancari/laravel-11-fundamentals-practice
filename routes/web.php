@@ -15,481 +15,489 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/about', function () {
-    return "About page";
-});
+// Route::get('/about', function () {
+//     return "About page";
+// });
 
-Route::get('/contact', function () {
-    return "Contact page";
-});
+// Route::get('/contact', function () {
+//     return "Contact page";
+// });
 
-// passing with parameters
-/* Route::get('/post/{id}', function ($id) {
-    return "Post ID is " . $id;
-}); */
+// // passing with parameters
+// /* Route::get('/post/{id}', function ($id) {
+//     return "Post ID is " . $id;
+// }); */
 
-/* Route::get('/post/{id}/{name}', function ($id, $name) {
-    return "Post ID is " . $id . " by " . $name;
-}); */
+// /* Route::get('/post/{id}/{name}', function ($id, $name) {
+//     return "Post ID is " . $id . " by " . $name;
+// }); */
 
-// naming routes
-Route::get('/admin/post/example', array('as' => 'admin.home', function () {
+// // naming routes
+// Route::get('/admin/post/example', array('as' => 'admin.home', function () {
     
-    $url = route('admin.home');
+//     $url = route('admin.home');
 
-    // this can be used like: <a href="route(admin.home)">Click here</a>
-    return "This url is " . $url;
-}));
+//     // this can be used like: <a href="route(admin.home)">Click here</a>
+//     return "This url is " . $url;
+// }));
 
-// Routing Controllers
-// Route::get('/posts', [PostsController::class, 'index']);
+// // Routing Controllers
+// // Route::get('/posts', [PostsController::class, 'index']);
 
-// Route::get('/posts/{id}', [PostsController::class, 'show']); // this automatically passes parameters
+// // Route::get('/posts/{id}', [PostsController::class, 'show']); // this automatically passes parameters
 
-// Resource
-// Route::resource('posts', PostsController::class);
-// Route::get('/summary/{id}/{name}/{password}', [PostsController::class, 'summary']); // custom function
+// // Resource
+// // Route::resource('posts', PostsController::class);
+// // Route::get('/summary/{id}/{name}/{password}', [PostsController::class, 'summary']); // custom function
 
-Route::group(['middleware' =>['web']], function() {
+// Route::group(['middleware' =>['web']], function() {
 
 
-});
+// });
 
-/* Application Routes */
+// /* Application Routes */
 
-Route::get('/insert', function() {
-    $user = User::findOrFail(1);
+// Route::get('/insert', function() {
+//     $user = User::findOrFail(1);
     
-    $address = new Address([
-        'name' => 'Pagadian, Zamboanga del Sur'
-    ]);
+//     $address = new Address([
+//         'name' => 'Pagadian, Zamboanga del Sur'
+//     ]);
 
-    $user->address()->save($address);
+//     $user->address()->save($address);
 
-    // DB::insert('insert into posts(title, content) values(?, ?)', ['Practice Laravel', 'Laravel is the best thing that happened to PHP']);
-});
+//     // DB::insert('insert into posts(title, content) values(?, ?)', ['Practice Laravel', 'Laravel is the best thing that happened to PHP']);
+// });
 
-Route::get('/read', function() {
+// Route::get('/read', function() {
 
-    $user = User::findOrFail(1);
-    return $user->address->name;
+//     $user = User::findOrFail(1);
+//     return $user->address->name;
 
-    // $results = DB::select('SELECT * FROM posts where id = ?', [1]);
+//     // $results = DB::select('SELECT * FROM posts where id = ?', [1]);
 
-    // return $results;
-    /* foreach($results as $post) {
-        return $post->content;
-    } */
-});
+//     // return $results;
+//     /* foreach($results as $post) {
+//         return $post->content;
+//     } */
+// });
 
-Route::get('/update', function() {
+// Route::get('/update', function() {
     
-    $address = Address::whereUserId('1')->first();
+//     $address = Address::whereUserId('1')->first();
     
-    $address->name = "Pagadian, Zamboanga del Sur, PH";
+//     $address->name = "Pagadian, Zamboanga del Sur, PH";
 
-    $address->save();
+//     $address->save();
 
-    // $updated = DB::update('UPDATE posts SET title = "Updated title" WHERE id = ?', [1]);
-    // return $updated;
-});
+//     // $updated = DB::update('UPDATE posts SET title = "Updated title" WHERE id = ?', [1]);
+//     // return $updated;
+// });
  
-Route::get('/delete', function() {
+// Route::get('/delete', function() {
 
-    $user = User::findOrFail(2);
-    $user->address()->delete();
-    // $deleted = DB::delete('DELETE FROM posts WHERE id = ?', [1]);
-    // return $deleted;
-});
+//     $user = User::findOrFail(2);
+//     $user->address()->delete();
+//     // $deleted = DB::delete('DELETE FROM posts WHERE id = ?', [1]);
+//     // return $deleted;
+// });
 
-Route::get('/create/posts', function() {
+// Route::get('/create/posts', function() {
 
-    $user = User::findOrFail(1);
-    $post = new Post(['title'=>'Fake Faces', 'content'=>'And I tried to give what they want from me / This one-sided love is slowly killing me']);
-    $user->post()->save($post);
+//     $user = User::findOrFail(1);
+//     $post = new Post(['title'=>'Fake Faces', 'content'=>'And I tried to give what they want from me / This one-sided love is slowly killing me']);
+//     $user->post()->save($post);
     
-});
+// });
 
-Route::get('/read/user/posts', function() {
+// Route::get('/read/user/posts', function() {
 
-    $user = User::findOrFail(1);
-    // return $user->posts;
+//     $user = User::findOrFail(1);
+//     // return $user->posts;
 
-    foreach($user->posts as $post) {
-        echo $post->title . "<br />";
-    }
+//     foreach($user->posts as $post) {
+//         echo $post->title . "<br />";
+//     }
     
-});
+// });
 
-Route::get('/update/user/posts', function() {
+// Route::get('/update/user/posts', function() {
 
-    $user = User::findOrFail(1);
+//     $user = User::findOrFail(1);
 
-    $user->posts()->whereId(1)->update([
-        'title' => 'Bulan!',
-        'content' => 'Abante lang, walang atrasan / Ang bumangga giba / Kabisig man o hindi ang mundo / Tuluy-tuloy lang ang takbo'
-    ]);
+//     $user->posts()->whereId(1)->update([
+//         'title' => 'Bulan!',
+//         'content' => 'Abante lang, walang atrasan / Ang bumangga giba / Kabisig man o hindi ang mundo / Tuluy-tuloy lang ang takbo'
+//     ]);
     
-});
+// });
 
-Route::get('/delete/user/posts', function() {
+// Route::get('/delete/user/posts', function() {
 
-    $user = User::findOrFail(1);
+//     $user = User::findOrFail(1);
 
-    $user->posts()->whereId(1)->delete();
+//     $user->posts()->whereId(1)->delete();
     
-});
+// });
 
-Route::get('/create/user/role', function() {
-    $user = User::find(2);
+// Route::get('/create/user/role', function() {
+//     $user = User::find(2);
 
-    $role = new Role(['name' => 'administrator']);
+//     $role = new Role(['name' => 'administrator']);
 
-    $user->roles()->save($role);
-});
+//     $user->roles()->save($role);
+// });
 
-Route::get('/read/user/role', function() {
-    $user = User::findOrFail(2);
+// Route::get('/read/user/role', function() {
+//     $user = User::findOrFail(2);
 
-    foreach($user->roles as $role) {
-        echo $role->name;
-    }
-});
+//     foreach($user->roles as $role) {
+//         echo $role->name;
+//     }
+// });
 
-Route::get('/update/user/role', function() {
-    $user = User::findOrFail(2);
+// Route::get('/update/user/role', function() {
+//     $user = User::findOrFail(2);
 
-    if ($user->has('roles')) {
-        foreach ($user->roles as $role) {
-            if ($role->name === 'Subscriber') {
-                $role->name = 'Administrator';
-                $role->save();
-            }
-        }
-    }
-});
+//     if ($user->has('roles')) {
+//         foreach ($user->roles as $role) {
+//             if ($role->name === 'Subscriber') {
+//                 $role->name = 'Administrator';
+//                 $role->save();
+//             }
+//         }
+//     }
+// });
 
-Route::get('/delete/user/role', function() {
-    $user = User::findOrFail(2);
+// Route::get('/delete/user/role', function() {
+//     $user = User::findOrFail(2);
 
-    foreach ($user->roles as $role) {
-        $role->whereId(4)->delete();
-    }
-});
+//     foreach ($user->roles as $role) {
+//         $role->whereId(4)->delete();
+//     }
+// });
 
-// ATTACHES A ROLE TO A USER
-Route::get('/attach', function() {
-    $user = User::findOrFail(1);
+// // ATTACHES A ROLE TO A USER
+// Route::get('/attach', function() {
+//     $user = User::findOrFail(1);
 
-    $user->roles()->attach(2); // similar with adding role, but tagging it to a specific user
-    // CONS: everytime the "attach" is used, it will add another record
-});
+//     $user->roles()->attach(2); // similar with adding role, but tagging it to a specific user
+//     // CONS: everytime the "attach" is used, it will add another record
+// });
 
-// REMOVES ATTACHMENT TO A USER
-Route::get('/detach', function() {
-    $user = User::findOrFail(1);
+// // REMOVES ATTACHMENT TO A USER
+// Route::get('/detach', function() {
+//     $user = User::findOrFail(1);
     
-    $user->roles()->detach(); // similar with adding role, but tagging it to a specific user
-    // CONS: everytime the "attach" is used, it will add another record
-});
+//     $user->roles()->detach(); // similar with adding role, but tagging it to a specific user
+//     // CONS: everytime the "attach" is used, it will add another record
+// });
 
-// SYNC
-Route::get('/sync', function() {
-    $user = User::findOrFail(1);
+// // SYNC
+// Route::get('/sync', function() {
+//     $user = User::findOrFail(1);
 
-    $user->roles()->sync([1, 2]);
-});
+//     $user->roles()->sync([1, 2]);
+// });
 
-/** 
- * ELOQUENT
-*/
+// /** 
+//  * ELOQUENT
+// */
 
-// READ
-Route::get('/read/posts', function() {
-     $posts  = Post::all();
+// // READ
+// Route::get('/read/posts', function() {
+//      $posts  = Post::all();
      
-     foreach($posts as $post) {
-        return $post->title;
-     }
-});
+//      foreach($posts as $post) {
+//         return $post->title;
+//      }
+// });
 
-Route::get('/find', function() {
-    $post = Post::find(2);
-    return $post->title;
-});
+// Route::get('/find', function() {
+//     $post = Post::find(2);
+//     return $post->title;
+// });
 
-Route::get('/findwhere', function(){
-    $posts = Post::where('id', 2)->orderBy('id', 'desc')->take(1)->get();
-    return $posts;
-});
+// Route::get('/findwhere', function(){
+//     $posts = Post::where('id', 2)->orderBy('id', 'desc')->take(1)->get();
+//     return $posts;
+// });
 
-Route::get('/findmore', function() {
-    $posts = Post::findOrFail(4);
-    return $posts;
-});
+// Route::get('/findmore', function() {
+//     $posts = Post::findOrFail(4);
+//     return $posts;
+// });
 
-// INSERT
-Route::get('/basicinsert', function() {
-    $post = new Post;
+// // INSERT
+// Route::get('/basicinsert', function() {
+//     $post = new Post;
 
-    $post->title = 'New Eloquent title insert';
-    $post->content = 'New Eloquent is really cool!';
-    $post->save();
-});
+//     $post->title = 'New Eloquent title insert';
+//     $post->content = 'New Eloquent is really cool!';
+//     $post->save();
+// });
 
-Route::get('/findandupdate', function() {
-    $post = Post::find(2);
+// Route::get('/findandupdate', function() {
+//     $post = Post::find(2);
 
-    $post->title = 'New Eloquent title insert #2';
-    $post->content = 'New Eloquent is really cool! #2';
-    $post->save();
-});
+//     $post->title = 'New Eloquent title insert #2';
+//     $post->content = 'New Eloquent is really cool! #2';
+//     $post->save();
+// });
 
-Route::get('/create', function() {
-    Post::create([
-        'title' => 'the create method',
-        'content' => 'I\'m learning a lot',
-    ]);
-});
+// Route::get('/create', function() {
+//     Post::create([
+//         'title' => 'the create method',
+//         'content' => 'I\'m learning a lot',
+//     ]);
+// });
 
-// UPDATE
-Route::get('/update/post', function() {
-    Post::where('id', 2)->where('is_admin', 0)->update(['title' => 'NEW PHP TITLE', 'content' => 'NEW CONTENT!!!']);
-});
+// // UPDATE
+// Route::get('/update/post', function() {
+//     Post::where('id', 2)->where('is_admin', 0)->update(['title' => 'NEW PHP TITLE', 'content' => 'NEW CONTENT!!!']);
+// });
 
-// DELETE
-Route::get('/delete/posts', function() {
-    $post = Post::find(1);
-    $post->delete();
-});
+// // DELETE
+// Route::get('/delete/posts', function() {
+//     $post = Post::find(1);
+//     $post->delete();
+// });
 
-Route::get('/destroy', function() {
-    Post::destroy(3);
+// Route::get('/destroy', function() {
+//     Post::destroy(3);
     
-    // deleting multiple
-    // Post::destroy([4,5]);
+//     // deleting multiple
+//     // Post::destroy([4,5]);
 
-    // another delete option
-    // Post::where('is_admin', 0)->delete();
-});
+//     // another delete option
+//     // Post::where('is_admin', 0)->delete();
+// });
 
-// SOFT DELETE
-Route::get('/softdelete', function() {
-    Post::find(6)->delete();
-});
+// // SOFT DELETE
+// Route::get('/softdelete', function() {
+//     Post::find(6)->delete();
+// });
 
-Route::get('/readsoftdelete', function() {
-    $posts = Post::withTrashed()->where('is_admin', 0)->get();
-    // $posts = Post::onlyTrashed()->where('is_admin', 0)->get();
+// Route::get('/readsoftdelete', function() {
+//     $posts = Post::withTrashed()->where('is_admin', 0)->get();
+//     // $posts = Post::onlyTrashed()->where('is_admin', 0)->get();
 
-    return $posts;
-});
+//     return $posts;
+// });
 
-Route::get('/restore', function() {
-    $posts = Post::withTrashed()->where('is_admin', 0)->restore();
+// Route::get('/restore', function() {
+//     $posts = Post::withTrashed()->where('is_admin', 0)->restore();
     
-    return $posts;
-});
+//     return $posts;
+// });
 
-// THIS METHOD FORCE DELETE RECORD WHEN SOFTDELETE IS ENABLED
-Route::get('/forcedelete', function() {
-    $posts = Post::onlyTrashed()->where('is_admin', 0)->forceDelete();
+// // THIS METHOD FORCE DELETE RECORD WHEN SOFTDELETE IS ENABLED
+// Route::get('/forcedelete', function() {
+//     $posts = Post::onlyTrashed()->where('is_admin', 0)->forceDelete();
     
-    return $posts;
-});
+//     return $posts;
+// });
+
+// /**
+//  * ELOQUENT RELATIONSHIPS
+//  */
+
+// // ONE TO ONE RELATIONSHIP
+
+// // THIS FETCHES USER'S POST
+// Route::get('/user/{id}/post', function($id) {
+//     return User::find($id)->post->title;
+// });
+
+// // INVERSE RELATION
+// Route::get('/post/{id}/user', function($id) {
+//     return Post::find($id)->user->name;
+// });
+
+// // ONE TO MANY RELATIONSHIP
+// Route::get('/posts', function() {
+    
+//     $user = User::find(1);
+
+//     foreach($user->posts as $post) {
+//         echo $post->title . "<br />";
+//     }
+// });
+
+// // MANY TO MANY RELATIONSHIP
+// Route::get('/user/{id}/role', function($id) {
+    
+//     $user = User::find($id)->roles;
+
+//     return $user;
+// });
+
+// // ACCESSING INTERMEDIATE TABLE (PIVOT TABLE)
+// Route::get('/user/pivot', function() {
+//     $user = User::find(1);
+
+//     // return $user->roles;
+//     foreach($user->roles as $role) {
+//         return $role->pivot->created_at;
+//     }
+// });
+
+// // HAS MANY THROUGH RELATIONS
+// Route::get('/user/country', function() {
+//     $country = Country::find(4);
+
+//     foreach($country->posts as $post) {
+//         return $post->title;
+//     }
+// });
+
+// // POLYMORPHIC RELATIONS
+// Route::get('/user/photos', function() {
+//     $user = User::find(1);
+    
+//     foreach($user->photos as $photo) {
+//         return $photo;
+//     }
+// });
+
+// Route::get('/post/photos', function() {
+//     $post = Post::find(1);
+    
+//     foreach($post->photos as $photo) {
+//         return $photo->path;
+//     }
+// });
+
+// Route::get('/photo/{id}/post', function($id) { // POLYMORPHIC THE INVERSE
+//     $photo = Photo::findOrFail($id);
+
+//     return $photo->imageable;
+// });
+
+// // POLYMORPHIC MANY TO MANY
+// Route::get('/post/tag', function() {
+//     $post = Post::find(1);
+    
+//     foreach($post->tags as $tag) {
+//         echo $tag->name;
+//     }
+// });
+
+// Route::get('/tag/post', function() {
+//     $tag = Tag::find(2);
+    
+//     foreach($tag->posts as $post) {
+//         echo $post->title;
+//     }
+// });
+
+// // POLYMORPH
+
+// Route::get('/create/staff/photo', function() {
+//     $staff = Staff::find(1);
+
+//     $staff->photos()->create(['path' => 'example.jpg']);
+// });
+
+// Route::get('/read/staff/photo', function() {
+//     $staff = Staff::findOrFail(1);
+
+//     foreach($staff->photos as $photo) {
+//         echo $photo->path;
+//     }
+// });
+
+// Route::get('/read/staff/photo', function() {
+//     $staff = Staff::findOrFail(1);
+
+//     foreach($staff->photos as $photo) {
+//         echo $photo->path;
+//     }
+// });
+
+// Route::get('/update/staff/photo', function() {
+//     $staff = Staff::findOrFail(1);
+
+//     $photo = $staff->photos()->whereId(2)->first();
+//     $photo->path = "Example.jpg";
+//     $photo->save();
+// });
+
+// Route::get('/delete/staff/photo', function() {
+//     $staff = Staff::findOrFail(1);
+
+//     $staff->photos()->delete();
+// });
+
+// Route::get('/assign', function() {
+//     $staff = Staff::findOrFail(1);
+
+//     $photo = Photo::findOrFail(3);
+
+//     $staff->photos()->save($photo);
+// });
+
+// Route::get('/unassign', function() {
+//     $staff = Staff::findOrFail(1);
+
+//     $photo = Photo::findOrFail(3);
+
+//     $staff->photos()->whereId(3)->update(['imageable_id' => 0, "imageable_type" => ""]);
+// });
+ 
+// Route::get('/create/tag', function() {
+//     $post = Post::create(['title' => 'My first post', 'content' => 'My first content']);
+
+//     $tag1 = Tag::find(1);
+
+//     $post->tags()->save($tag1);
+
+//     $video = Video::create(['name' => 'Video.mov']);
+
+//     $tag2 = Tag::find(1);
+
+//     $video->tags()->save($tag2);
+// });
+
+// Route::get('/read/tag', function() {
+//     $post = Post::findOrFail(1);
+
+//     foreach($post->tags as $tag) {
+//         echo $tag;
+//     }
+// });
+
+// Route::get('/update/tag', function() {
+//     /* $post = Post::findOrFail(4);
+
+//     foreach($post->tags as $tag) {
+//         return $tag->whereName('PHP')->update(['name' => 'Updated PHP']);
+//     } */
+
+//     $post = Post::findOrFail(5);
+//     $tag = Tag::find(2);
+
+//     // $post->tags()->save($tag);
+//     // $post->tags()->attach($tag);
+//     $post->tags()->sync([1]);
+// });
+
+// Route::get('/delete/tag', function() {
+//     $post = Post::find(4);
+
+//     foreach($post->tags as $tag) {
+//         $tag->whereId(2)->delete();
+//     }
+// });
 
 /**
- * ELOQUENT RELATIONSHIPS
+ * -----------------------------------------------------------------------------------------------------
+ * CRUD APPLICATION [WORKING WITH FORMS]
+ * -----------------------------------------------------------------------------------------------------
  */
 
-// ONE TO ONE RELATIONSHIP
-
-// THIS FETCHES USER'S POST
-Route::get('/user/{id}/post', function($id) {
-    return User::find($id)->post->title;
-});
-
-// INVERSE RELATION
-Route::get('/post/{id}/user', function($id) {
-    return Post::find($id)->user->name;
-});
-
-// ONE TO MANY RELATIONSHIP
-Route::get('/posts', function() {
-    
-    $user = User::find(1);
-
-    foreach($user->posts as $post) {
-        echo $post->title . "<br />";
-    }
-});
-
-// MANY TO MANY RELATIONSHIP
-Route::get('/user/{id}/role', function($id) {
-    
-    $user = User::find($id)->roles;
-
-    return $user;
-});
-
-// ACCESSING INTERMEDIATE TABLE (PIVOT TABLE)
-Route::get('/user/pivot', function() {
-    $user = User::find(1);
-
-    // return $user->roles;
-    foreach($user->roles as $role) {
-        return $role->pivot->created_at;
-    }
-});
-
-// HAS MANY THROUGH RELATIONS
-Route::get('/user/country', function() {
-    $country = Country::find(4);
-
-    foreach($country->posts as $post) {
-        return $post->title;
-    }
-});
-
-// POLYMORPHIC RELATIONS
-Route::get('/user/photos', function() {
-    $user = User::find(1);
-    
-    foreach($user->photos as $photo) {
-        return $photo;
-    }
-});
-
-Route::get('/post/photos', function() {
-    $post = Post::find(1);
-    
-    foreach($post->photos as $photo) {
-        return $photo->path;
-    }
-});
-
-Route::get('/photo/{id}/post', function($id) { // POLYMORPHIC THE INVERSE
-    $photo = Photo::findOrFail($id);
-
-    return $photo->imageable;
-});
-
-// POLYMORPHIC MANY TO MANY
-Route::get('/post/tag', function() {
-    $post = Post::find(1);
-    
-    foreach($post->tags as $tag) {
-        echo $tag->name;
-    }
-});
-
-Route::get('/tag/post', function() {
-    $tag = Tag::find(2);
-    
-    foreach($tag->posts as $post) {
-        echo $post->title;
-    }
-});
-
-// POLYMORPH
-
-Route::get('/create/staff/photo', function() {
-    $staff = Staff::find(1);
-
-    $staff->photos()->create(['path' => 'example.jpg']);
-});
-
-Route::get('/read/staff/photo', function() {
-    $staff = Staff::findOrFail(1);
-
-    foreach($staff->photos as $photo) {
-        echo $photo->path;
-    }
-});
-
-Route::get('/read/staff/photo', function() {
-    $staff = Staff::findOrFail(1);
-
-    foreach($staff->photos as $photo) {
-        echo $photo->path;
-    }
-});
-
-Route::get('/update/staff/photo', function() {
-    $staff = Staff::findOrFail(1);
-
-    $photo = $staff->photos()->whereId(2)->first();
-    $photo->path = "Example.jpg";
-    $photo->save();
-});
-
-Route::get('/delete/staff/photo', function() {
-    $staff = Staff::findOrFail(1);
-
-    $staff->photos()->delete();
-});
-
-Route::get('/assign', function() {
-    $staff = Staff::findOrFail(1);
-
-    $photo = Photo::findOrFail(3);
-
-    $staff->photos()->save($photo);
-});
-
-Route::get('/unassign', function() {
-    $staff = Staff::findOrFail(1);
-
-    $photo = Photo::findOrFail(3);
-
-    $staff->photos()->whereId(3)->update(['imageable_id' => 0, "imageable_type" => ""]);
-});
- 
-Route::get('/create/tag', function() {
-    $post = Post::create(['title' => 'My first post', 'content' => 'My first content']);
-
-    $tag1 = Tag::find(1);
-
-    $post->tags()->save($tag1);
-
-    $video = Video::create(['name' => 'Video.mov']);
-
-    $tag2 = Tag::find(1);
-
-    $video->tags()->save($tag2);
-});
-
-Route::get('/read/tag', function() {
-    $post = Post::findOrFail(1);
-
-    foreach($post->tags as $tag) {
-        echo $tag;
-    }
-});
-
-Route::get('/update/tag', function() {
-    /* $post = Post::findOrFail(4);
-
-    foreach($post->tags as $tag) {
-        return $tag->whereName('PHP')->update(['name' => 'Updated PHP']);
-    } */
-
-    $post = Post::findOrFail(5);
-    $tag = Tag::find(2);
-
-    // $post->tags()->save($tag);
-    // $post->tags()->attach($tag);
-    $post->tags()->sync([1]);
-});
-
-Route::get('/delete/tag', function() {
-    $post = Post::find(4);
-
-    foreach($post->tags as $tag) {
-        $tag->whereId(2)->delete();
-    }
-});
+ Route::resource('posts', PostsController::class);
