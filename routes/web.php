@@ -500,4 +500,6 @@ use Illuminate\Support\Facades\DB;
  * -----------------------------------------------------------------------------------------------------
  */
 
- Route::resource('posts', PostsController::class);
+Route::group(['middleware' => 'web'], function() { // SECURITY FEATURE IN LARAVEL
+    Route::resource('posts', PostsController::class);
+});

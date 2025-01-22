@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreatePostRequest;
 use App\Models\Post;
 
 use Illuminate\Http\Request;
@@ -29,8 +30,14 @@ class PostsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreatePostRequest $request)
     {
+        // SIMPLE VALIDATION / RULES
+        /* $validated = $request->validate([
+            'title' => 'required|max:255',
+            'content' => 'required'
+        ]); */
+        
         // fetching records from request
         // return $request->get('title');
         // return $request->title; // return as object
