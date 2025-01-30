@@ -14,6 +14,7 @@ use App\Http\Controllers\PostsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -502,4 +503,15 @@ use Illuminate\Support\Facades\DB;
 
 Route::group(['middleware' => 'web'], function() { // SECURITY FEATURE IN LARAVEL
     Route::resource('posts', PostsController::class);
+
+    Route::get('/dates', function() {
+        $date = new DateTime('+1 week');
+        echo $date->format('m-d-Y') . "<br />";
+        
+        echo Carbon::now() . "<br />";
+        echo Carbon::now()->diffForHumans() . "<br />";
+        echo Carbon::now()->addDays(10)->diffForHumans() . "<br />";
+        echo Carbon::now()->subMonths(5)->diffForHumans() . "<br />";
+        echo Carbon::now()->yesterday()->diffForHumans() . "<br />";
+    });
 });
